@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import skillsData from '@/data/skills.json';
 
 type Skill = typeof skillsData.skills[0];
@@ -77,7 +77,7 @@ function AnimeMascot() {
   );
 }
 
-function Header() {
+function Header({ isDetailPage = false }: { isDetailPage?: boolean }) {
   return (
     <header className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,12 +89,14 @@ function Header() {
             <a href="/" className="font-semibold text-lg text-gray-900 hover:text-gray-700">
               alanamultiskillagent
             </a>
-            <span className="hidden sm:inline-block text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
-              Multi-Skill Agent Directory
-            </span>
+            {isDetailPage && (
+              <span className="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full">
+                ← Back to directory
+              </span>
+            )}
           </div>
           <nav className="flex items-center gap-4 text-sm">
-            <a href="#about" className="text-gray-600 hover:text-gray-900">About</a>
+            <a href="/" className="text-gray-600 hover:text-gray-900">Home</a>
             <a
               href="https://github.com"
               target="_blank"
@@ -115,17 +117,17 @@ function Header() {
 
 function Hero() {
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
+    <section className="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-          <div className="text-center md:text-left">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Multi-Skill Agent <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500">Directory</span>
-            </h1>
-            <p className="text-lg text-gray-600 max-w-xl mb-8">
-              A curated collection of AI agent skills from official development teams and the community.
-              Browse {skillsData.metadata.totalSkills}+ skills across {skillsData.metadata.totalCategories} categories.
-            </p>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Agent Skills Directory
+          </h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-6">
+            A curated collection of skills for AI agents like Claude Code, Cursor, and more.
+            Built and maintained by the companies that make these tools.
+          </p>
+          <div className="flex items-center justify-center gap-4 flex-wrap">
             <a
               href="#find-skills"
               className="inline-flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-800 transition-colors"
@@ -135,7 +137,21 @@ function Hero() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </a>
+            <a
+              href="https://github.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-white text-gray-700 border border-gray-300 px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+              </svg>
+              View on GitHub
+            </a>
           </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 mt-8">
           <AnimeMascot />
         </div>
       </div>
@@ -145,19 +161,19 @@ function Hero() {
 
 function Stats() {
   return (
-    <section className="py-8 bg-white border-y border-gray-200">
+    <section className="py-8 bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-gray-900">562</div>
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{skillsData.metadata.totalSkills}</div>
             <div className="text-sm text-gray-500">Official Skills</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-gray-900">49</div>
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{skillsData.metadata.totalPublishers}</div>
             <div className="text-sm text-gray-500">Dev Teams</div>
           </div>
           <div className="text-center">
-            <div className="text-2xl md:text-3xl font-bold text-gray-900">9</div>
+            <div className="text-2xl md:text-3xl font-bold text-gray-900">{skillsData.metadata.totalCategories}</div>
             <div className="text-sm text-gray-500">Categories</div>
           </div>
           <div className="text-center">
@@ -205,7 +221,7 @@ function PublishersSection({ publishers }: { publishers: Publisher[] }) {
           {featuredPublishers.map((publisher) => (
             <a
               key={publisher.id}
-              href={`#${publisher.id}`}
+              href={`/?publisher=${publisher.id}`}
               className="flex flex-col items-center gap-2 p-3 rounded-lg hover:bg-gray-50 transition-colors group"
             >
               <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center text-xs font-bold text-gray-600 group-hover:bg-gray-200 transition-colors">
@@ -319,13 +335,13 @@ function PublisherFilter({
   );
 }
 
-function SkillCard({ skill }: { skill: Skill }) {
+function SkillCard({ skill, onClick }: { skill: Skill; onClick: () => void }) {
   const categoryClass = categoryColors[skill.category] || 'bg-gray-100 text-gray-700 border-gray-200';
 
   return (
-    <a
-      href={`#${skill.name}`}
-      className="block p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
+    <button
+      onClick={onClick}
+      className="block w-full text-left p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
     >
       <div className="flex items-start gap-3">
         <span className="text-sm text-gray-400 font-mono w-6 text-right shrink-0">
@@ -352,23 +368,268 @@ function SkillCard({ skill }: { skill: Skill }) {
           </p>
         </div>
       </div>
-    </a>
+    </button>
   );
 }
 
-function SkillsList({ skills }: { skills: Skill[] }) {
+function SkillsList({ skills, onSelectSkill }: { skills: Skill[]; onSelectSkill: (skill: Skill) => void }) {
   return (
     <div className="space-y-1">
       {skills.map((skill) => (
-        <SkillCard key={`${skill.publisher}-${skill.name}`} skill={skill} />
+        <SkillCard key={`${skill.publisher}-${skill.name}`} skill={skill} onClick={() => onSelectSkill(skill)} />
       ))}
+    </div>
+  );
+}
+
+function SkillMdViewer({ content, skillName }: { content: string; skillName: string }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }, [content]);
+
+  return (
+    <div className="border border-gray-200 rounded-lg overflow-hidden">
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors text-left"
+      >
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-sm font-medium text-gray-700">SKILL.md</span>
+          <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded">Preview</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-gray-500">{isExpanded ? 'Click to collapse' : 'Click to expand'}</span>
+          <svg
+            className={`w-4 h-4 text-gray-500 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
+
+      {isExpanded && (
+        <div className="p-4 border-t border-gray-200 bg-white">
+          <div className="flex justify-end mb-3">
+            <button
+              onClick={handleCopy}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 rounded-md transition-colors"
+            >
+              {copied ? (
+                <>
+                  <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-green-600">Copied!</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-gray-600">Copy code</span>
+                </>
+              )}
+            </button>
+          </div>
+          <pre className="text-sm bg-gray-900 text-gray-100 p-4 rounded-md overflow-x-auto font-mono">
+            <code>{content}</code>
+          </pre>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function SkillDetailPage({ skill, onBack }: { skill: Skill; onBack: () => void }) {
+  const categoryClass = categoryColors[skill.category] || 'bg-gray-100 text-gray-700 border-gray-200';
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyInstall = useCallback(() => {
+    if (skill.installCommand) {
+      navigator.clipboard.writeText(skill.installCommand);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [skill.installCommand]);
+
+  const relatedSkills = useMemo(() => {
+    return skillsData.skills
+      .filter(s => s.category === skill.category && s.id !== skill.id)
+      .slice(0, 4);
+  }, [skill.category, skill.id]);
+
+  return (
+    <div className="min-h-screen flex flex-col bg-white">
+      <Header isDetailPage={true} />
+
+      <main className="flex-1">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <button
+            onClick={onBack}
+            className="flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900 mb-6"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to directory
+          </button>
+
+          {/* Header Section */}
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-4">
+              <span className={`text-sm px-3 py-1 rounded-full border ${categoryClass}`}>
+                {skill.category}
+              </span>
+              {skill.type === 'community' && (
+                <span className="text-sm px-3 py-1 rounded-full bg-purple-100 text-purple-700 border border-purple-200">
+                  community
+                </span>
+              )}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2 font-mono">
+              {skill.name}
+            </h1>
+            <p className="text-lg text-gray-500">
+              by <span className="text-gray-900">{skill.publisher}</span>
+            </p>
+          </div>
+
+          {/* Description */}
+          <div className="mb-8">
+            <p className="text-gray-700 text-lg leading-relaxed">
+              {skill.description}
+            </p>
+          </div>
+
+          {/* Install Command */}
+          {skill.installCommand && (
+            <div className="mb-8 bg-gray-50 border border-gray-200 rounded-lg p-4">
+              <h2 className="text-sm font-semibold text-gray-700 mb-3">Setup & Installation</h2>
+              <div className="flex items-center gap-3">
+                <code className="flex-1 bg-gray-900 text-gray-100 px-4 py-3 rounded-md font-mono text-sm overflow-x-auto">
+                  {skill.installCommand}
+                </code>
+                <button
+                  onClick={handleCopyInstall}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-300 hover:bg-gray-100 rounded-md transition-colors shrink-0"
+                >
+                  {copied ? (
+                    <>
+                      <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-green-600 text-sm">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-gray-600 text-sm">Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* What This Skill Does */}
+          {skill.whatItDoes && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">What This Skill Does</h2>
+              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                {skill.whatItDoes}
+              </p>
+            </div>
+          )}
+
+          {/* When to Use It */}
+          {skill.whenToUse && skill.whenToUse.length > 0 && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">When to Use It</h2>
+              <ul className="space-y-2">
+                {skill.whenToUse.map((item, index) => (
+                  <li key={index} className="flex items-start gap-3">
+                    <span className="w-2 h-2 bg-blue-500 rounded-full mt-2 shrink-0"></span>
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* SKILL.md Preview */}
+          {skill.skillMd && (
+            <div className="mb-8">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">SKILL.md</h2>
+              <SkillMdViewer content={skill.skillMd} skillName={skill.name} />
+            </div>
+          )}
+
+          {/* GitHub Link */}
+          {skill.githubUrl && (
+            <div className="mb-8 pt-6 border-t border-gray-200">
+              <a
+                href={skill.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                View on GitHub
+              </a>
+            </div>
+          )}
+
+          {/* Similar Skills */}
+          {relatedSkills.length > 0 && (
+            <div className="pt-6 border-t border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 mb-4">Similar Skills</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {relatedSkills.map((relatedSkill) => (
+                  <button
+                    key={relatedSkill.id}
+                    onClick={() => {
+                      onBack();
+                      setTimeout(() => {
+                        const event = new CustomEvent('selectSkill', { detail: relatedSkill });
+                        window.dispatchEvent(event);
+                      }, 100);
+                    }}
+                    className="text-left p-4 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all"
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-mono font-medium text-gray-900">{relatedSkill.name}</span>
+                      <span className="text-xs text-gray-400">/</span>
+                      <span className="text-xs text-gray-500">{relatedSkill.publisher}</span>
+                    </div>
+                    <p className="text-sm text-gray-600 line-clamp-2">{relatedSkill.description}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 }
 
 function Footer() {
   return (
-    <footer className="py-8 bg-gray-50 border-t border-gray-200 mt-16">
+    <footer className="py-8 bg-gray-50 border-t border-gray-200 mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm text-gray-500">
@@ -393,6 +654,8 @@ function Footer() {
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedPublisher, setSelectedPublisher] = useState<string | null>(null);
+  const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
+  const [skillListKey, setSkillListKey] = useState(0);
 
   const filteredSkills = useMemo(() => {
     let filtered = skillsData.skills;
@@ -407,6 +670,25 @@ export default function Home() {
 
     return filtered;
   }, [selectedCategory, selectedPublisher]);
+
+  const handleSelectSkill = useCallback((skill: Skill) => {
+    setSelectedSkill(skill);
+  }, []);
+
+  const handleBackToList = useCallback(() => {
+    setSelectedSkill(null);
+    setSkillListKey(prev => prev + 1);
+  }, []);
+
+  // If a skill is selected, show the detail page
+  if (selectedSkill) {
+    return (
+      <SkillDetailPage
+        skill={selectedSkill}
+        onBack={handleBackToList}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -443,8 +725,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-8 border-t border-gray-200 pt-8">
-            <SkillsList skills={filteredSkills} />
+          <div className="mt-8 border-t border-gray-200 pt-8" key={skillListKey}>
+            <SkillsList skills={filteredSkills} onSelectSkill={handleSelectSkill} />
           </div>
         </div>
       </main>
