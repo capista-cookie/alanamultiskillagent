@@ -285,7 +285,7 @@ export default function SkillDetailPage() {
                     <article className="py-2 px-4 min-w-0 transition-all duration-200 overflow-wrap-break-word word-break-normal w-full max-w-full overflow-x-auto">
                       <div className="w-full max-w-full min-w-0 skill-md-render prose max-w-none prose-headings:text-gray-900 prose-headings:font-inter prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-900 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 prose-pre:text-gray-900 prose-a:text-blue-600">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {(skill as any).skillMd || defaultMd}
+                          {processedSkillMd}
                         </ReactMarkdown>
                       </div>
                     </article>
