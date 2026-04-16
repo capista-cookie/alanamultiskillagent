@@ -8,6 +8,8 @@ export default function Home() {
   const [selectedPublisher, setSelectedPublisher] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const skillsPerPage = 20;
 
   // Filtering logic matching original functionality
   const filteredSkills = useMemo(() => {
@@ -20,6 +22,18 @@ export default function Home() {
         : true;
       return matchesPublisher && matchesCategory && matchesSearch;
     });
+  }, [selectedPublisher, selectedCategory, searchQuery]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredSkills.length / skillsPerPage);
+  const paginatedSkills = useMemo(() => {
+    const startIndex = (currentPage - 1) * skillsPerPage;
+    return filteredSkills.slice(startIndex, startIndex + skillsPerPage);
+  }, [filteredSkills, currentPage, skillsPerPage]);
+
+  // Reset to page 1 when filters change
+  useMemo(() => {
+    setCurrentPage(1);
   }, [selectedPublisher, selectedCategory, searchQuery]);
 
   return (
@@ -109,14 +123,14 @@ export default function Home() {
           <div className="animate-marquee h-full flex items-center">
             {/* Duplicated array to create a seamless infinite loop */}
             {[...skillsData.publishers, ...skillsData.publishers].map((pub, idx) => (
-              <a 
+              <button 
                 key={`${pub.id}-${idx}`} 
-                href={`/${pub.id}/skills`} 
+                onClick={() => setSelectedPublisher(pub.id)}
                 className="flex items-center gap-2.5 px-6 border-r border-gray-200 h-full hover:bg-gray-100 transition-colors shrink-0"
               >
                 <img src={pub.logo} alt={pub.name} width={18} height={18} className="rounded-full shrink-0 object-cover" />
                 <span className="text-sm font-inter text-gray-700">{pub.id}</span>
-              </a>
+              </button>
             ))}
           </div>
         </div>
@@ -203,8 +217,8 @@ export default function Home() {
             </div>
 
             {/* List */}
-            <div className="flex flex-col border-t border-gray-200">
-              {filteredSkills.map((skill, index) => (
+            <div className="flex flex-col border-t border-gray-200 max-h-[600px] overflow-y-auto">
+              {paginatedSkills.map((skill, index) => (
                 <Link 
                   href={`/${skill.publisher}/skills/${skill.slug}`} 
                   key={skill.id} 
@@ -212,7 +226,7 @@ export default function Home() {
                 >
                   {/* Skill Index */}
                   <span className="w-8 shrink-0 text-[13px] text-gray-400 font-inter tabular-nums pt-0.5 sm:pt-0">
-                    {index + 1}
+                    {(currentPage - 1) * skillsPerPage + index + 1}
                   </span>
                   
                   {/* Content */}
@@ -232,13 +246,41 @@ export default function Home() {
                 </Link>
               ))}
 
-              {filteredSkills.length === 0 && (
+              {paginatedSkills.length === 0 && (
                 <div className="py-12 text-center flex flex-col items-center justify-center">
                   <span className="text-4xl mb-3">👻</span>
                   <span className="text-gray-500 font-inter text-sm">No skills found matching your criteria.</span>
                 </div>
               )}
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-200">
+                <div className="text-sm text-gray-500">
+                  Showing {((currentPage - 1) * skillsPerPage) + 1} to {Math.min(currentPage * skillsPerPage, filteredSkills.length)} of {filteredSkills.length} skills
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Previous
+                  </button>
+                  <span className="text-sm text-gray-700">
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

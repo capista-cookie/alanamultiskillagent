@@ -6,6 +6,7 @@ import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import skillsData from '../../../../data/skills.json';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../../../../components/ui/collapsible';
 
 // Type definitions
 interface Skill {
@@ -104,8 +105,19 @@ export default function SkillDetailPage() {
     );
   }
 
-  // Fallback markdown if empty
-  const defaultMd = `# ${skill.name}\n\n${skill.description}\n\n## Usage\nRun the installation command to get started with ${skill.name}.`;
+  // Process skillMd content to remove frontmatter and format properly
+  const processedSkillMd = useMemo(() => {
+    const rawMd = (skill as any).skillMd || defaultMd;
+    if (!rawMd) return defaultMd;
+    
+    // Remove frontmatter if present
+    const frontmatterEnd = rawMd.indexOf('---\n\n');
+    if (frontmatterEnd !== -1) {
+      return rawMd.substring(frontmatterEnd + 5);
+    }
+    
+    return rawMd;
+  }, [skill]);
 
   return (
     <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900 selection:bg-[#00d4a6] selection:text-white">
@@ -247,35 +259,31 @@ export default function SkillDetailPage() {
 
             {/* SKILL.md Preview with Proper Formatting */}
             <section className="mb-12">
-              <div className="w-full flex items-center gap-2 pl-4 pr-2 py-1.5 text-label-13 border rounded-t-md border-b-0 border-gray-200 bg-gray-50">
-                <button 
-                  type="button" 
-                  className="flex-1 flex items-center gap-3 py-1 bg-transparent border-0 cursor-pointer text-left transition-colors duration-150 hover:opacity-80" 
-                  onClick={() => setShowSkillMd(!showSkillMd)}
-                >
-                  <span className="inline-block text-[16px] transition-transform duration-200" style={{ transform: showSkillMd ? 'rotate(90deg)' : 'rotate(0deg)' }}>
-                    ›
-                  </span>
-                  <span className="text-[14px] tracking-[0.04em] font-sans font-semibold">Show SKILL.md file</span>
-                </button>
-                <button 
-                  type="button" 
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] cursor-pointer transition-colors duration-150 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 bg-white text-gray-900 font-inter"
-                  onClick={handleCopySkillMd}
-                  disabled={!skill}
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  <span>{skillMdCopied ? 'Copied!' : 'Copy'}</span>
-                </button>
-              </div>
-              {showSkillMd && (
-                <div className="w-full max-w-full min-w-0 rounded-b-md border border-t-0 border-gray-200 bg-gray-900">
+              <Collapsible open={showSkillMd} onOpenChange={setShowSkillMd}>
+                <div className="w-full flex items-center gap-2 pl-4 pr-2 py-1.5 text-label-13 border rounded-t-md border-b-0 border-gray-200 bg-gray-50">
+                  <CollapsibleTrigger className="flex-1 flex items-center gap-3 py-1 bg-transparent border-0 cursor-pointer text-left transition-colors duration-150 hover:opacity-80">
+                    <span className="inline-block text-[16px] transition-transform duration-200" style={{ transform: showSkillMd ? 'rotate(90deg)' : 'rotate(0deg)' }}>
+                      ›
+                    </span>
+                    <span className="text-[14px] tracking-[0.04em] font-sans font-semibold">Show SKILL.md file</span>
+                  </CollapsibleTrigger>
+                  <button 
+                    type="button" 
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] cursor-pointer transition-colors duration-150 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 bg-white text-gray-900 font-inter"
+                    onClick={handleCopySkillMd}
+                    disabled={!skill}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    <span>{skillMdCopied ? 'Copied!' : 'Copy'}</span>
+                  </button>
+                </div>
+                <CollapsibleContent className="w-full max-w-full min-w-0 rounded-b-md border border-t-0 border-gray-200 bg-white">
                   <div className="relative">
                     <article className="py-2 px-4 min-w-0 transition-all duration-200 overflow-wrap-break-word word-break-normal w-full max-w-full overflow-x-auto">
-                      <div className="w-full max-w-full min-w-0 skill-md-render prose prose-invert max-w-none prose-headings:text-gray-100 prose-headings:font-inter prose-headings:font-bold prose-p:text-gray-200 prose-li:text-gray-200 prose-strong:text-gray-100 prose-code:text-gray-100 prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-800 prose-pre:text-gray-100 prose-a:text-cyan-400">
+                      <div className="w-full max-w-full min-w-0 skill-md-render prose max-w-none prose-headings:text-gray-900 prose-headings:font-inter prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-900 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 prose-pre:text-gray-900 prose-a:text-blue-600">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {(skill as any).skillMd || defaultMd}
                         </ReactMarkdown>
@@ -286,7 +294,7 @@ export default function SkillDetailPage() {
                     <div className="w-full h-px bg-gray-200"></div>
                     <button 
                       type="button" 
-                      className="h-10 px-6 inline-flex items-center gap-2 rounded-full border transition-colors duration-150 text-[14px] cursor-pointer hover:bg-gray-800 border-gray-200 text-gray-200"
+                      className="h-10 px-6 inline-flex items-center gap-2 rounded-full border transition-colors duration-150 text-[14px] cursor-pointer hover:bg-gray-100 border-gray-200 text-gray-900"
                       onClick={() => setShowSkillMd(false)}
                     >
                       <span>Show Less</span>
@@ -295,8 +303,8 @@ export default function SkillDetailPage() {
                       </svg>
                     </button>
                   </div>
-                </div>
-              )}
+                </CollapsibleContent>
+              </Collapsible>
             </section>
           </main>
 
