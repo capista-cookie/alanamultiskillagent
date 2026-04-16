@@ -76,6 +76,9 @@ export default function SkillDetailPage() {
   const [showSkillMd, setShowSkillMd] = useState(false);
   const [skillMdCopied, setSkillMdCopied] = useState(false);
 
+  // Default markdown content as fallback
+  const defaultMd = '';
+
   const handleCopyInstall = useCallback(() => {
     if (!skill) return;
     navigator.clipboard.writeText(skill.installCommand || `npm install ${skill.name}`);
