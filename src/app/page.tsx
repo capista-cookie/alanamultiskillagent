@@ -90,10 +90,10 @@ export default function Home() {
 
       {/* Hero Section */}
       <section 
-        className="relative z-20 overflow-visible bg-white border-b border-gray-200"
+        className="relative z-20 overflow-visible bg-white border-b border-gray-200 mb-8"
         style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px)' }}
       >
-        <div className="relative grid grid-cols-1 lg:grid-cols-[1.55fr_0.95fr_0.7fr] items-stretch mx-auto max-w-[2000px]">
+        <div className="relative grid grid-cols-1 lg:grid-cols-[1.2fr_1.1fr_0.9fr] items-stretch mx-auto max-w-[2000px]">
           {/* Title Box */}
           <div className="flex flex-col border-b lg:border-b-0 lg:border-r border-gray-200 px-4 sm:px-6 py-8 sm:py-10 lg:px-16 lg:py-10">
             <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6 font-inter font-medium tracking-tight">
@@ -112,8 +112,32 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Quick Stats Box */}
-          <div className="hidden lg:block px-8 py-8 border-r border-gray-200 bg-white/50 backdrop-blur-sm">
+          {/* Character Image -> Moved to middle */}
+          <div id="character-showcase" className="hidden lg:flex flex-col relative animate-fade-in-up items-center justify-center px-8">
+            <div className="relative w-[300px] h-[340px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#00d4a6]/30 transition-all duration-500 group shadow-[0_0_40px_-15px_rgba(0,212,166,0.2)]">
+              {/* HUD Elements */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 mix-blend-overlay z-10 pointer-events-none"></div>
+              <div className="absolute top-2 left-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
+                SYS.RDY // 100%
+              </div>
+              <div className="absolute bottom-2 right-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
+                SYNC.OP // ACTIVE
+              </div>
+              
+              {/* Glitch Overlay on Hover (Subtle) */}
+              <div className="absolute inset-0 bg-[#00d4a6] mix-blend-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10 pointer-events-none"></div>
+
+              {/* Character Image */}
+              <img 
+                src="/char.jpeg" 
+                alt="Stylized Cyberpunk Assistant" 
+                className="w-full h-full object-cover object-top scale-[1.01] group-hover:scale-[1.05] transition-transform duration-700 ease-out" 
+              />
+            </div>
+          </div>
+
+          {/* Quick Stats Box -> Moved to right */}
+          <div className="hidden lg:block px-8 py-8 bg-white/50 backdrop-blur-sm">
             <div className="inline-flex items-center gap-2 mb-6">
               <span className="text-[#00d4a6] text-[10px]">▸</span>
               <h3 className="text-xs uppercase tracking-widest text-gray-400 font-inter font-medium">Quick Stats</h3>
@@ -137,29 +161,27 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Compatibility Grid -> Replaced by Character Image */}
-          <div id="character-showcase" className="hidden lg:flex flex-col relative animate-fade-in-up items-center justify-center pl-8">
-            <div className="relative w-[300px] h-[340px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#00d4a6]/30 transition-all duration-500 group shadow-[0_0_40px_-15px_rgba(0,212,166,0.2)]">
-              {/* HUD Elements */}
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 mix-blend-overlay z-10 pointer-events-none"></div>
-              <div className="absolute top-2 left-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
-                SYS.RDY // 100%
-              </div>
-              <div className="absolute bottom-2 right-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
-                SYNC.OP // ACTIVE
-              </div>
-              
-              {/* Glitch Overlay on Hover (Subtle) */}
-              <div className="absolute inset-0 bg-[#00d4a6] mix-blend-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10 pointer-events-none"></div>
-
-              {/* Character Image */}
-              <img 
-                src="/char.jpeg" 
-                alt="Stylized Cyberpunk Assistant" 
-                className="w-full h-full object-cover object-top scale-[1.01] group-hover:scale-[1.05] transition-transform duration-700 ease-out" 
-              />
-            </div>
+      {/* Infinite Marquee Slider (Publishers) */}
+      <section className="border-b border-gray-200 h-14 flex items-center bg-white overflow-hidden">
+        <div className="flex items-center px-4 sm:px-6 lg:px-16 border-r border-gray-200 h-full shrink-0 bg-white z-10 relative">
+          <span className="text-xs text-gray-500 font-mono tracking-widest uppercase">SKILLS BY DEV TEAMS OF:</span>
+        </div>
+        <div className="flex-1 h-full overflow-hidden relative bg-[#fafafa]">
+          <div className="animate-marquee h-full flex items-center">
+            {/* Duplicated array to create a seamless infinite loop */}
+            {[...skillsData.publishers, ...skillsData.publishers].map((pub, idx) => (
+              <a 
+                key={`${pub.id}-${idx}`} 
+                href={`/${pub.id}/skills`} 
+                className="flex items-center gap-2.5 px-6 border-r border-gray-200 h-full hover:bg-gray-100 transition-colors shrink-0"
+              >
+                <img src={pub.logo} alt={pub.name} width={18} height={18} className="rounded-full shrink-0 object-cover" />
+                <span className="text-sm font-mono text-gray-700">{pub.id}</span>
+              </a>
+            ))}
           </div>
         </div>
       </section>

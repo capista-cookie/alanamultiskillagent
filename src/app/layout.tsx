@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Alana multiskillagent - Agent Skills",
   description: "Discover and install skills for AI agents",
   icons: {
-    icon: '/favicon.ico',
+    icon: '/char.jpeg',
   },
 };
 
