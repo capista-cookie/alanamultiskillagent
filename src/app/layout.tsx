@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "officialskills.sh - Agent Skills",
+  title: "Alana multiskillagent - Agent Skills",
   description: "Discover and install skills for AI agents",
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col font-inter">{children}</body>
     </html>
   );
 }

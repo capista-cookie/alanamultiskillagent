@@ -98,7 +98,7 @@ export default function SkillDetailPage() {
 
   if (!skill) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white font-mono text-gray-500">
+      <div className="min-h-screen flex items-center justify-center bg-white font-inter text-gray-500">
         Skill not found.
       </div>
     );
@@ -111,11 +111,11 @@ export default function SkillDetailPage() {
     <div className="min-h-screen flex flex-col bg-white font-sans text-gray-900 selection:bg-[#00d4a6] selection:text-white">
       
       {/* Header Replicated */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-black/85 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
         <div className="max-w-[2000px] mx-auto w-full px-4 sm:px-6 lg:px-16 h-12 sm:h-14 flex items-center justify-between">
           <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/" className="text-[16px] sm:text-[20px] lg:text-[24px] tracking-widest font-semibold text-gray-100 font-mono">
-              official<span className="text-[#00d4a6]">skills</span>.sh
+            <Link href="/" className="text-[16px] sm:text-[20px] lg:text-[24px] tracking-widest font-semibold text-gray-900 font-inter">
+              <span className="text-[#00d4a6] font-bold" style={{fontFamily: 'Courier New, monospace', textShadow: '1px 1px 0px rgba(0,0,0,0.3)'}}>Alana</span><span className="font-inter">multiskillagent</span>
             </Link>
           </div>
         </div>
@@ -125,7 +125,7 @@ export default function SkillDetailPage() {
       <div className="border-b border-gray-200 bg-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <div>
-            <Link href="/" className="inline-flex items-center gap-1.5 text-sm mb-5 text-gray-500 hover:text-gray-900 transition-colors font-mono">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-sm mb-5 text-gray-500 hover:text-gray-900 transition-colors font-inter">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m15 18-6-6 6-6"></path>
               </svg>
@@ -133,11 +133,11 @@ export default function SkillDetailPage() {
             </Link>
             
             <div className="flex items-start sm:items-center gap-3 sm:gap-4 flex-wrap mb-4">
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-mono tracking-tight text-gray-900">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-inter tracking-tight text-gray-900">
                 {skill.name}
               </h1>
               <div className="flex items-center gap-2 mt-1 sm:mt-0">
-                <span className="text-xs px-2.5 py-1 rounded border border-gray-200 bg-gray-50 text-gray-600 font-mono uppercase tracking-wider">
+                <span className="text-xs px-2.5 py-1 rounded border border-gray-200 bg-gray-50 text-gray-600 font-inter uppercase tracking-wider">
                   {skill.category}
                 </span>
               </div>
@@ -156,12 +156,12 @@ export default function SkillDetailPage() {
                   className="w-6 h-6 rounded-full border border-gray-200 bg-gray-50 object-cover"
                   onError={(e) => { e.currentTarget.style.display = 'none' }}
                 />
-                <Link href={`/?publisher=${skill.publisher}`} className="text-sm font-mono text-black-600 hover:text-[#00d4a6] transition-colors font-medium">
+                <Link href={`/${skill.publisher}`} className="text-sm font-inter text-gray-600 hover:text-[#00d4a6] transition-colors font-medium">
                   {skill.publisher}
                 </Link>
               </div>
               <span className="text-gray-300">|</span>
-              <Link href={`/?publisher=${skill.publisher}`} className="text-sm font-mono text-[#00d4a6] hover:text-[#00b38c] transition-colors font-medium">
+              <Link href={`/${skill.publisher}`} className="text-sm font-inter text-[#00d4a6] hover:text-[#00b38c] transition-colors font-medium">
                 View all {skill.publisher} skills →
               </Link>
             </div>
@@ -180,7 +180,7 @@ export default function SkillDetailPage() {
               <div className="rounded-xl p-5 mb-4 bg-gray-50 border border-gray-200">
                 <div className="mb-4">
                   <div className="flex items-center gap-2 rounded-md px-4 py-2.5 bg-gray-900 border border-gray-700">
-                    <span className="text-[14px] flex-1 truncate font-mono text-gray-200">
+                    <span className="text-[14px] flex-1 truncate font-inter text-gray-200">
                       {skill.installCommand || `gh extension install ${skill.publisher}/${skill.name}`}
                     </span>
                     <button 
@@ -199,7 +199,7 @@ export default function SkillDetailPage() {
                 <span className="text-sm block mb-2 text-gray-600">or paste the link and ask your coding assistant to install it</span>
                 <div className="flex items-stretch gap-3">
                   <div className="flex items-center gap-2 rounded-md px-4 py-2.5 flex-1 min-w-0 bg-gray-100 border border-gray-300">
-                    <span className="text-[14px] flex-1 truncate font-mono text-gray-900">
+                    <span className="text-[14px] flex-1 truncate font-inter text-gray-900">
                       {skill.githubUrl || `https://github.com/${skill.publisher}/${skill.name}`}
                     </span>
                     <button onClick={handleCopyLink} className="flex-shrink-0 p-1 rounded hover:bg-gray-200 text-gray-500 transition-colors" title="Copy link">
@@ -260,7 +260,7 @@ export default function SkillDetailPage() {
                 </button>
                 <button 
                   type="button" 
-                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] cursor-pointer transition-colors duration-150 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 bg-white text-gray-900 font-mono"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[12px] cursor-pointer transition-colors duration-150 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-200 bg-white text-gray-900 font-inter"
                   onClick={handleCopySkillMd}
                   disabled={!skill}
                 >
@@ -275,7 +275,7 @@ export default function SkillDetailPage() {
                 <div className="w-full max-w-full min-w-0 rounded-b-md border border-t-0 border-gray-200 bg-gray-900">
                   <div className="relative">
                     <article className="py-2 px-4 min-w-0 transition-all duration-200 overflow-wrap-break-word word-break-normal w-full max-w-full overflow-x-auto">
-                      <div className="w-full max-w-full min-w-0 skill-md-render prose prose-invert max-w-none prose-headings:text-gray-100 prose-headings:font-mono prose-headings:font-bold prose-p:text-gray-200 prose-li:text-gray-200 prose-strong:text-gray-100 prose-code:text-gray-100 prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-800 prose-pre:text-gray-100 prose-a:text-cyan-400">
+                      <div className="w-full max-w-full min-w-0 skill-md-render prose prose-invert max-w-none prose-headings:text-gray-100 prose-headings:font-inter prose-headings:font-bold prose-p:text-gray-200 prose-li:text-gray-200 prose-strong:text-gray-100 prose-code:text-gray-100 prose-code:bg-gray-800 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-800 prose-pre:text-gray-100 prose-a:text-cyan-400">
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {(skill as any).skillMd || defaultMd}
                         </ReactMarkdown>
@@ -305,7 +305,7 @@ export default function SkillDetailPage() {
             <aside className="flex flex-col gap-4 p-6 rounded-xl border border-gray-200 bg-gray-50/50">
               <button 
                 onClick={() => setSaved(!saved)}
-                className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold transition-all duration-200 w-full cursor-pointer font-mono ${
+                className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-3 text-sm font-semibold transition-all duration-200 w-full cursor-pointer font-inter ${
                   saved 
                     ? 'bg-gray-900 text-white border-gray-900' 
                     : 'bg-[#00d4a6] text-gray-900 border-[#00d4a6] hover:bg-[#00b38c]'
@@ -329,7 +329,7 @@ export default function SkillDetailPage() {
         <div className="py-10 border-t border-gray-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold font-mono text-gray-900">Similar Skills</h2>
+              <h2 className="text-xl font-bold font-inter text-gray-900">Similar Skills</h2>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {relatedSkills.map((relatedSkill) => (
@@ -338,7 +338,7 @@ export default function SkillDetailPage() {
                   href={`/${relatedSkill.publisher}/skills/${relatedSkill.slug}`}
                   className="group flex flex-col rounded-lg p-4 bg-gray-50 border border-gray-200 hover:bg-gray-100 transition-colors duration-150 cursor-pointer text-left"
                 >
-                  <h3 className="text-sm font-medium mb-1.5 font-mono text-gray-900 transition-colors">
+                  <h3 className="text-sm font-medium mb-1.5 font-inter text-gray-900 transition-colors">
                     {relatedSkill.name}
                   </h3>
                   <p className="text-xs leading-relaxed flex-1 mb-4 line-clamp-2 text-gray-600">
@@ -355,11 +355,11 @@ export default function SkillDetailPage() {
       <footer className="mt-auto py-8 border-t border-gray-200">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-sm">
           <a href="https://github.com/VoltAgent/voltagent" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 flex-shrink-0 text-gray-600 hover:text-gray-900 transition-colors">
-            <span className="text-[13px]">Maintained by VoltAgent team</span>
+            <span className="text-[13px]">Maintained by Alanamultiskillagent team</span>
           </a>
           <div className="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-2 text-gray-500">
-            <span className="text-[15px] sm:text-[18px] tracking-widest font-mono text-gray-900 font-semibold">
-              official<span className="text-[#00d4a6]">skills</span>.sh
+            <span className="text-[15px] sm:text-[18px] tracking-widest font-inter text-gray-900 font-semibold">
+              <span className="text-[#00d4a6] font-bold" style={{fontFamily: 'Courier New, monospace', textShadow: '1px 1px 0px rgba(0,0,0,0.3)'}}>Alana</span><span className="font-inter">multiskillagent</span>
             </span>
             <span className="text-center">— Agent skills by official dev teams. No AI-generated filler.</span>
           </div>

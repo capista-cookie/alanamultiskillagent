@@ -98,10 +98,10 @@ function PublisherSkillsClient({ publisher, publisherSkills }: { publisher: Publ
             {filteredSkills.map((skill) => (
               <button key={`${skill.publisher}-${skill.name}`} onClick={() => setSelectedSkill(skill)} className="w-full text-left p-4 rounded-lg border hover:bg-gray-50 transition-colors group" style={{ borderColor: colors.border }}>
                 <div className="flex items-start gap-3">
-                  <span className="text-sm text-gray-400 font-mono w-8 text-right shrink-0">{skill.id}.</span>
+                  <span className="text-sm text-gray-400 font-inter w-8 text-right shrink-0">{skill.id}.</span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className="font-mono font-medium group-hover:text-teal-600 transition-colors" style={{ color: colors.gray900, fontSize: '14px' }}>{skill.name}</span>
+                      <span className="font-inter font-medium group-hover:text-teal-600 transition-colors" style={{ color: colors.gray900, fontSize: '14px' }}>{skill.name}</span>
                       <span className="text-[11px] px-2 py-0.5 rounded-full border bg-gray-100 text-gray-700" style={{ fontFamily: 'monospace' }}>{skill.category}</span>
                     </div>
                     <p className="text-sm line-clamp-2" style={{ color: colors.gray800 }}>{skill.description}</p>
