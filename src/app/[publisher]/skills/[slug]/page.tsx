@@ -280,14 +280,25 @@ export default function SkillDetailPage() {
                     <span>{skillMdCopied ? 'Copied!' : 'Copy'}</span>
                   </button>
                 </div>
-                <CollapsibleContent className="w-full max-w-full min-w-0 rounded-b-md border border-t-0 border-gray-200 bg-white">
-                  <div className="relative">
-                    <article className="py-2 px-4 min-w-0 transition-all duration-200 overflow-wrap-break-word word-break-normal w-full max-w-full overflow-x-auto">
-                      <div className="w-full max-w-full min-w-0 skill-md-render prose max-w-none prose-headings:text-gray-900 prose-headings:font-inter prose-headings:font-bold prose-p:text-gray-700 prose-li:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-900 prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 prose-pre:text-gray-900 prose-a:text-blue-600">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {processedSkillMd}
-                        </ReactMarkdown>
-                      </div>
+                <CollapsibleContent className="w-full max-w-full min-w-0 border border-t-0 border-gray-200 bg-white shadow-sm overflow-hidden">
+                  <div className="relative p-6 sm:p-8">
+                    <article className="prose max-w-none text-gray-800 break-words
+                                        prose-headings:text-gray-900 prose-headings:font-inter prose-headings:font-bold 
+                                        prose-h1:text-3xl prose-h2:text-2xl prose-h2:mt-10 prose-h3:text-xl
+                                        prose-p:text-gray-700 prose-p:leading-relaxed 
+                                        prose-li:text-gray-700 prose-ul:mb-6 prose-li:my-1
+                                        prose-strong:text-gray-900 
+                                        prose-code:text-[#00d4a6] prose-code:bg-[#00d4a6]/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-[#00d4a6]/20 prose-code:font-mono prose-code:text-sm prose-code:font-normal
+                                        prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:p-5 prose-pre:rounded-xl prose-pre:overflow-x-auto prose-pre:shadow-sm prose-pre:my-6
+                                        prose-pre:border prose-pre:border-gray-800 [&_pre_code]:bg-transparent [&_pre_code]:text-inherit [&_pre_code]:p-0 [&_pre_code]:border-none
+                                        prose-a:text-[#00d4a6] prose-a:no-underline hover:prose-a:underline hover:prose-a:text-[#00b38c]
+                                        prose-blockquote:border-l-4 prose-blockquote:border-[#00d4a6] prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-600 prose-blockquote:bg-gray-50 prose-blockquote:py-2 w-full
+                                        prose-table:w-full prose-table:border-collapse prose-table:my-6 prose-table:text-sm
+                                        prose-th:bg-gray-50 prose-th:px-4 prose-th:py-3 prose-th:text-left prose-th:font-semibold prose-th:text-gray-900 prose-th:border prose-th:border-gray-200
+                                        prose-td:px-4 prose-td:py-3 prose-td:border prose-td:border-gray-200 prose-td:align-top">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {processedSkillMd}
+                      </ReactMarkdown>
                     </article>
                   </div>
                   <div className="flex flex-col items-center gap-3 pt-2 pb-4">

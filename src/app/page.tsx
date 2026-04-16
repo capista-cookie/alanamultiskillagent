@@ -138,24 +138,27 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Compatibility Grid */}
-          <div id="compatibility-grid" className="hidden lg:flex flex-col">
-            <div className="relative mt-4 grid grid-cols-1 lg:grid-cols-2 gap-0 auto-rows-fr flex-1">
-              {tools.map((tool, idx) => (
-                <a 
-                  key={tool.name} 
-                  href={tool.link} 
-                  className={`group relative ${idx % 2 === 0 ? 'fight-loop-shake-left' : 'fight-loop-shake-right'}`}
-                  title={tool.name}
-                >
-                  <div className="h-28 w-full flex flex-col items-center justify-center gap-2 min-w-0 border border-gray-200 bg-transparent hover:bg-gray-50 transition-colors">
-                    <span className="rounded-md grid place-items-center flex-shrink-0" style={{color: 'var(--color-gray-1000)'}}>
-                      <span style={{display: 'inline-flex'}} dangerouslySetInnerHTML={{ __html: tool.svg }} />
-                    </span>
-                    <span className="text-[11px] whitespace-nowrap text-gray-500 font-inter">{tool.name}</span>
-                  </div>
-                </a>
-              ))}
+          {/* Compatibility Grid -> Replaced by Character Image */}
+          <div id="character-showcase" className="hidden lg:flex flex-col relative animate-fade-in-up items-center justify-center pl-8">
+            <div className="relative w-[300px] h-[340px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#00d4a6]/30 transition-all duration-500 group shadow-[0_0_40px_-15px_rgba(0,212,166,0.2)]">
+              {/* HUD Elements */}
+              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 mix-blend-overlay z-10 pointer-events-none"></div>
+              <div className="absolute top-2 left-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
+                SYS.RDY // 100%
+              </div>
+              <div className="absolute bottom-2 right-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
+                SYNC.OP // ACTIVE
+              </div>
+              
+              {/* Glitch Overlay on Hover (Subtle) */}
+              <div className="absolute inset-0 bg-[#00d4a6] mix-blend-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10 pointer-events-none"></div>
+
+              {/* Character Image */}
+              <img 
+                src="/char.jpeg" 
+                alt="Stylized Cyberpunk Assistant" 
+                className="w-full h-full object-cover object-top scale-[1.01] group-hover:scale-[1.05] transition-transform duration-700 ease-out" 
+              />
             </div>
           </div>
         </div>
@@ -193,10 +196,10 @@ export default function Home() {
                     key={pub.id}
                     onClick={() => setSelectedPublisher(pub.id)} 
                     onDoubleClick={() => setSelectedPublisher(null)}
-                    className={`flex items-center gap-2.5 text-left text-sm py-2 px-2 transition-colors ${selectedPublisher === pub.id ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
+                    className={`flex items-center gap-2.5 text-left text-sm py-2 px-2 transition-colors select-none ${selectedPublisher === pub.id ? 'text-gray-900 font-semibold' : 'text-gray-500 hover:text-gray-900'}`}
                   >
                     <img src={pub.logo} alt={pub.name} width={16} height={16} className="rounded-full shrink-0" />
-                    <span className="truncate font-inter">{pub.id}</span>
+                    <span className="truncate font-inter pointer-events-none">{pub.id}</span>
                   </button>
                 ))}
               </div>
