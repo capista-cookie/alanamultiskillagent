@@ -23,6 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={cn("h-full", "antialiased", inter.variable, "font-sans")}>
+      <head>
+        <link rel="icon" href="/char.jpeg" type="image/jpeg" />
+      </head>
       <body className="min-h-full flex flex-col font-inter">{children}</body>
     </html>
   );
