@@ -163,8 +163,11 @@ function SkillModal({ skill, onClose, publisher }: { skill: Skill; onClose: () =
 export default function PublisherSkillsPage() {
   const params = useParams();
   const publisherId = params.publisher as string;
-  const publisher = skillsData.publishers.find(p => p.id === publisherId);
-  const publisherSkills = skillsData.skills.filter(s => s.publisher === publisherId);
+  const publisher = skillsData.publishers.find(p => p.id.toLowerCase() === publisherId.toLowerCase()) || {
+    id: publisherId,
+    name: publisherId,
+    logo: `https://github.com/${publisherId}.png`
+  };  
+  const publisherSkills = skillsData.skills.filter(s => s.publisher.toLowerCase() === publisherId.toLowerCase());
 
-  return <PublisherSkillsClient publisher={publisher} publisherSkills={publisherSkills} />;
-}
+  return <PublisherSkillsClient publisher={publisher as any} publisherSkills={publisherSkills} />;

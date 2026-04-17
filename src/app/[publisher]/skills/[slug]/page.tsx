@@ -61,8 +61,16 @@ export default function SkillDetailPage() {
   const publisher = params.publisher as string;
 
   // Find the exact skill and related skills dynamically
-  const skill = useMemo(() => typedSkillsData.skills.find((s) => s.slug === slug), [slug]);
-  
+  const skill = useMemo(() => typedSkillsData.skills.find((s) => s.slug.toLowerCase() === slug.toLowerCase()), [slug]);
+
+  const publisherData = useMemo(() => {
+    return typedSkillsData.publishers.find(p => p.id.toLowerCase() === publisher.toLowerCase()) || {
+      id: publisher,
+      name: publisher,
+      logo: `https://github.com/${publisher}.png`
+    };
+  }, [publisher]);
+
   const relatedSkills = useMemo(() => {
     if (!skill) return [];
     return typedSkillsData.skills
@@ -164,15 +172,15 @@ export default function SkillDetailPage() {
 
             <div className="flex items-center gap-4 flex-wrap">
               <div className="flex items-center gap-2.5">
-                {/* GitHub Dynamic Profile Image */}
-                <img 
-                  src={`https://github.com/${skill.publisher}.png`} 
-                  alt={skill.publisher}
+                {/* Dynamically Resolved Profile Image */}
+                <img
+                  src={publisherData.logo || `https://github.com/${skill.publisher}.png`}
+                  alt={publisherData.name}
                   className="w-6 h-6 rounded-full border border-gray-200 bg-gray-50 object-cover"
                   onError={(e) => { e.currentTarget.style.display = 'none' }}
                 />
                 <Link href={`/${skill.publisher}`} className="text-sm font-inter text-gray-600 hover:text-[#00d4a6] transition-colors font-medium">
-                  {skill.publisher}
+                  {publisherData.name}
                 </Link>
               </div>
               <span className="text-gray-300">|</span>

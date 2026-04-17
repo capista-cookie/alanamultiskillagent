@@ -18,12 +18,19 @@ interface Skill {
   installCommand: string;
 }
 
+interface Publisher {
+  id: string;
+  name: string;
+  logo?: string;
+}
+
 interface SkillsData {
   skills: Skill[];
+  publishers: Publisher[];
 }
 
 // Cast the imported data
-const typedSkillsData = skillsData as SkillsData;
+const typedSkillsData = skillsData as unknown as SkillsData;
 
 export default function PublisherPage() {
   const params = useParams();
@@ -31,7 +38,15 @@ export default function PublisherPage() {
 
   // Get all skills from this publisher
   const publisherSkills = useMemo(() => {
-    return typedSkillsData.skills.filter((skill) => skill.publisher === publisher);
+    return typedSkillsData.skills.filter((skill) => skill.publisher.toLowerCase() === publisher.toLowerCase());
+  }, [publisher]);
+
+  const publisherData = useMemo(() => {
+    return typedSkillsData.publishers.find(p => p.id.toLowerCase() === publisher.toLowerCase()) || {
+      id: publisher,
+      name: publisher,
+      logo: `https://github.com/${publisher}.png`
+    };
   }, [publisher]);
 
   // Get publisher info (assuming first skill has the publisher data)
@@ -85,21 +100,16 @@ export default function PublisherPage() {
             </Link>
             <div className="flex items-center gap-3 sm:gap-4 mb-2">
               <div className="flex items-center gap-2.5">
-                {/* GitHub Dynamic Profile Image */}
-                <img 
-                  src={`https://github.com/${publisher}.png`} 
-                  alt={publisher}
-                  className="w-9 h-9 rounded-full border border-gray-200 bg-gray-50 object-cover"
-                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                {/* Dynamic Profile Image based on publisher logo */}
+                <img
+                  src={publisherData.logo || `https://github.com/${publisher}.png`}
+                  alt={publisherData.name}
+                  className="w-12 h-12 rounded-full border border-gray-200 bg-gray-50 object-cover"
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}   
                 />
-                <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center" style={{ display: 'none' }}>
-                  <span className="text-sm font-semibold text-gray-600 uppercase">
-                    {publisher.charAt(0)}
-                  </span>
-                </div>
               </div>
               <h1 className="text-3xl sm:text-4xl font-inter font-semibold text-gray-900">
-                {publisher}
+                {publisherData.name}
               </h1>
             </div>
             <div className="flex items-center gap-3">

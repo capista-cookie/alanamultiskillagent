@@ -1,8 +1,53 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import skillsData from '../data/skills.json';
+import skillsDataJson from '../data/skills.json';
 import Link from 'next/link';
+
+interface SkillsData {
+  metadata: {
+    siteName: string;
+    tagline: string;
+    description: string;
+    lastUpdated: string;
+    totalSkills: number;
+    totalPublishers: number;
+    totalCategories: number;
+  };
+  categories: {
+    id: string;
+    name: string;
+    count: number;
+    color: string;
+  }[];
+  publishers: {
+    id: string;
+    name: string;
+    avatar: string;
+    twitter: string;
+    github: string;
+    logo: string;
+  }[];
+  skills: {
+    id: string;
+    name: string;
+    slug: string;
+    publisher: string;
+    category: string;
+    type: string;
+    description: string;
+    githubUrl: string;
+    installCommand: string;
+    whatItDoes: string;
+    whenToUse: string[];
+    skillMd: string;
+    featured?: boolean;
+    popular?: boolean;
+    icon?: string;
+  }[];
+}
+
+const skillsData = skillsDataJson as unknown as SkillsData;
 
 export default function Home() {
   const [selectedPublisher, setSelectedPublisher] = useState<string | null>(null);
@@ -89,80 +134,92 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section 
-        className="relative z-20 overflow-visible bg-white border-b border-gray-200 mb-8"
-        style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent 0px, transparent 3px, rgba(0,0,0,0.03) 3px, rgba(0,0,0,0.03) 4px)' }}
-      >
-        <div className="relative grid grid-cols-1 lg:grid-cols-[1.2fr_1.1fr_0.9fr] items-stretch mx-auto max-w-[2000px]">
-          {/* Title Box */}
-          <div className="flex flex-col border-b lg:border-b-0 lg:border-r border-gray-200 px-4 sm:px-6 py-8 sm:py-10 lg:px-16 lg:py-10">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl leading-[1.05] mb-6 font-inter font-medium tracking-tight">
-              Official<br />
-              <span className="text-[#00d4a6]">Agent Skills</span>
-            </h1>
-            <p className="mb-8 text-[14px] sm:text-[16px] text-gray-500 leading-relaxed">
-              {skillsData.metadata.description.split(', ').map((line, i) => (
-                <span key={i}>{line}{i === 0 && ', '}<br className="hidden sm:block" /></span>
-              ))}
-            </p>
-            <div className="flex flex-wrap gap-2.5">
-              <a href="#find-skills" className="inline-flex items-center gap-2 rounded-md border border-gray-200 bg-gray-50 hover:bg-gray-100 px-5 py-2.5 text-sm text-gray-900 font-inter transition-colors">
-                Browse Official Skills ↓
-              </a>
-            </div>
-          </div>
+        <section className="relative w-full min-h-[80vh] flex items-center overflow-hidden bg-white border-b border-gray-200 mb-0">
+          
+          {/* Background & Seamless Character Integration */}
+          <div className="absolute inset-0 w-full h-full z-0">
+            
+            {/* Subtle Light Cyberpunk Grid - Full Width */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#00d4a615_1px,transparent_1px),linear-gradient(to_bottom,#00d4a615_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_100%_100%_at_50%_50%,#000_40%,transparent_100%)]"></div>
 
-          {/* Character Image -> Moved to middle */}
-          <div id="character-showcase" className="hidden lg:flex flex-col relative animate-fade-in-up items-center justify-center px-8">
-            <div className="relative w-[300px] h-[340px] rounded-2xl overflow-hidden border-2 border-transparent hover:border-[#00d4a6]/30 transition-all duration-500 group shadow-[0_0_40px_-15px_rgba(0,212,166,0.2)]">
-              {/* HUD Elements */}
-              <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/circuit-board.png')] opacity-10 mix-blend-overlay z-10 pointer-events-none"></div>
-              <div className="absolute top-2 left-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
-                SYS.RDY // 100%
-              </div>
-              <div className="absolute bottom-2 right-2 text-[10px] text-[#00d4a6] font-mono z-20 opacity-70 tracking-widest pointer-events-none">
-                SYNC.OP // ACTIVE
-              </div>
-              
-              {/* Glitch Overlay on Hover (Subtle) */}
-              <div className="absolute inset-0 bg-[#00d4a6] mix-blend-overlay opacity-0 group-hover:opacity-10 transition-opacity duration-500 z-10 pointer-events-none"></div>
-
-              {/* Character Image */}
+            {/* Character Image - Pushed absolutely to the right edge */}
+            <div className="absolute top-0 right-0 w-full md:w-[75%] lg:w-[60%] h-full z-0">
               <img 
                 src="/char.jpeg" 
-                alt="Stylized Cyberpunk Assistant" 
-                className="w-full h-full object-cover object-top scale-[1.01] group-hover:scale-[1.05] transition-transform duration-700 ease-out" 
+                alt="Alana - System Agent"
+                className="w-full h-full object-cover object-right md:object-right-top mix-blend-multiply opacity-95"
               />
             </div>
-          </div>
 
-          {/* Quick Stats Box -> Moved to right */}
-          <div className="hidden lg:block px-8 py-8 bg-white/50 backdrop-blur-sm">
-            <div className="inline-flex items-center gap-2 mb-6">
-              <span className="text-[#00d4a6] text-[10px]">▸</span>
-              <h3 className="text-xs uppercase tracking-widest text-gray-400 font-inter font-medium">Quick Stats</h3>
+            {/* ANTI-SQUARE BORDER FADE GRADIENTS */}
+            {/* Left fade to blend with text area */}
+            <div className="absolute top-0 left-0 w-full md:w-[60%] h-full bg-gradient-to-r from-white via-white/95 to-transparent z-10"></div>
+            {/* Top & Bottom fades to prevent hard cuts */}
+            <div className="absolute bottom-0 left-0 w-full h-48 bg-gradient-to-t from-white via-white/90 to-transparent z-10"></div>
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-white via-white/80 to-transparent z-10"></div>
+            {/* Right edge fade just in case the image doesn't perfectly hit the edge */}
+            <div className="absolute top-0 right-0 w-8 h-full bg-gradient-to-l from-white to-transparent z-10"></div>
+
+            <div className="hidden lg:flex absolute bottom-[30%] left-[45%] px-4 py-2 border border-[#00d4a6]/30 bg-white/80 backdrop-blur-md text-xs font-mono text-[#009b7a] rounded items-center gap-2 z-20 shadow-sm">
+              <div className="w-2 h-2 rounded-full bg-[#00d4a6] animate-pulse"></div>
+              ALANA_OS_ACTIVE
             </div>
-            <div className="flex flex-col">
-              <div className="flex justify-between py-2.5 border-t border-gray-200 text-[15px]">
-                <span className="text-gray-500">Last Updated</span>
-                <span className="text-[#00d4a6] font-inter">{skillsData.metadata.lastUpdated}</span>
-              </div>
-              <div className="flex justify-between py-2.5 border-t border-gray-200 text-[15px]">
-                <span className="text-gray-500">Dev Teams</span>
-                <span className="text-[#00d4a6] font-inter">{skillsData.metadata.totalPublishers}</span>
-              </div>
-              <div className="flex justify-between py-2.5 border-t border-gray-200 text-[15px]">
-                <span className="text-gray-500">Categories</span>
-                <span className="text-[#00d4a6] font-inter">{skillsData.metadata.totalCategories}</span>
-              </div>
-              <div className="flex justify-between py-2.5 border-t border-gray-200 text-[15px]">
-                <span className="text-gray-500">Official Skills</span>
-                <span className="text-[#00d4a6] font-inter">{skillsData.metadata.totalSkills}</span>
-              </div>
-            </div>
+
+            {/* Subtle Environmental Glows */}
+            <div className="absolute top-1/4 left-[-10%] w-[50vw] h-[50vw] bg-[#00d4a6]/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
           </div>
-        </div>
-      </section>
+          
+          {/* Main Hero Content - REMOVED 'container' & 'max-w-7xl' for Full Width */}
+          <div className="w-full relative z-20 pt-32 pb-20 px-6 md:px-16 lg:px-24 xl:px-32 flex flex-col md:flex-row items-center justify-between">
+            
+            {/* Text Content (Left Side) - Now stretches more freely */}
+            <div className="w-full md:w-3/5 lg:w-1/2">
+              
+              <h1 className="text-5xl md:text-6xl lg:text-[5.5rem] xl:text-[6.5rem] font-extrabold tracking-tight mb-8 text-slate-900 leading-[1.05] font-inter">
+                Official <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00d4a6] via-teal-500 to-[#009b7a] drop-shadow-sm">
+                  Agent Skills
+                </span>
+              </h1>
+              
+              <p className="text-lg md:text-xl text-slate-600 mb-12 leading-relaxed font-inter max-w-2xl border-l-4 border-[#00d4a6] pl-6 bg-gradient-to-r from-[#00d4a6]/10 to-transparent py-3">
+                {skillsData.metadata.description.split(', ').map((line, i) => (
+                  <span key={i}>{line}{i === 0 && ', '}<br className="hidden sm:block" /></span>
+                ))}
+              </p>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-12">
+                <a 
+                  href="#find-skills" 
+                  className="w-full sm:w-auto px-10 py-5 bg-[#00d4a6] text-white font-extrabold rounded-md hover:bg-[#00b38c] transition-all flex items-center justify-center gap-3 shadow-[0_4px_14px_0_rgba(0,212,166,0.39)] hover:shadow-[0_6px_20px_rgba(0,212,166,0.23)] z-20 relative overflow-hidden group text-lg"
+                >
+                  <div className="absolute inset-0 w-full h-full bg-white/20 -translate-x-full group-hover:translate-x-full transition-transform duration-500 ease-out skew-x-12"></div>
+                  Browse Official Skills ↓
+                </a>
+              </div>
+
+              {/* Quick Stats Box instead of Tags */}
+              <div className="flex flex-wrap items-center gap-3 relative z-20">
+                <span className="text-xs font-mono text-[#009b7a] mr-2 uppercase tracking-widest font-bold">Quick Stats:</span>
+                <span className="px-4 py-1.5 text-xs font-mono font-semibold rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#00d4a6] hover:border-[#00d4a6] transition-colors shadow-sm">
+                  Updated: {skillsData.metadata.lastUpdated}
+                </span>
+                <span className="px-4 py-1.5 text-xs font-mono font-semibold rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#00d4a6] hover:border-[#00d4a6] transition-colors shadow-sm">
+                  {skillsData.metadata.totalPublishers} Dev Teams
+                </span>
+                <span className="px-4 py-1.5 text-xs font-mono font-semibold rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#00d4a6] hover:border-[#00d4a6] transition-colors shadow-sm">
+                  {skillsData.metadata.totalCategories} Categories
+                </span>
+                <span className="px-4 py-1.5 text-xs font-mono font-semibold rounded bg-slate-50 border border-slate-200 text-slate-600 hover:text-[#00d4a6] hover:border-[#00d4a6] transition-colors shadow-sm">
+                  {skillsData.metadata.totalSkills} Skills
+                </span>
+              </div>
+            </div>
+            
+            {/* Spacer for character on the right */}
+            <div className="hidden md:block w-2/5"></div>
+          </div>
+        </section>
 
       {/* Infinite Marquee Slider (Publishers) */}
       <section className="border-b border-gray-200 h-14 flex items-center bg-white overflow-hidden">
