@@ -171,3 +171,4 @@ export default function PublisherSkillsPage() {
   const publisherSkills = skillsData.skills.filter(s => s.publisher.toLowerCase() === publisherId.toLowerCase());
 
   return <PublisherSkillsClient publisher={publisher as any} publisherSkills={publisherSkills} />;
+}
