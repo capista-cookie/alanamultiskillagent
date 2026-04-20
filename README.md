@@ -1,6 +1,8 @@
+
 # Alana Multi-Skill Agent Directory
 
 
+![Banner](public/banner.jpeg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Next.js](https://img.shields.io/badge/Next.js-14.2-black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)

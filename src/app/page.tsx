@@ -97,7 +97,8 @@ export default function Home() {
       const matchesCategory = selectedCategory ? skill.category === selectedCategory : true;
       const matchesSearch = searchQuery 
         ? skill.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-          skill.description.toLowerCase().includes(searchQuery.toLowerCase()) 
+          skill.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          skill.publisher.toLowerCase().includes(searchQuery.toLowerCase())
         : true;
       return matchesPublisher && matchesCategory && matchesSearch;
     });
