@@ -9,7 +9,7 @@
 
 [![Follow on X](https://img.shields.io/badge/Follow%20on%20X-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/alanaagent)
 
-CA: [TBD]
+CA: F2doPexvpWisX3vpWi7XyZMFyhpRfysZgtEzx9Yjpump
 
 This is a comprehensive directory for AI agent skills from various publishers and developers. The goal of this project is to provide a centralized hub for discovering, exploring, and installing skills for AI agents. This project is for **educational** purposes and to facilitate the development of AI agent capabilities.
 
